@@ -7,7 +7,7 @@
         }
 
         h1 {
-            color: red;
+            color: rgb(10, 184, 68);
             font-size: 50;
             font-style: oblique;
             text-align: center;
@@ -30,12 +30,13 @@
     <script src="init.js"></script>
     <script src="move.js"></script>
     <script src="squares.js"></script>
+    <script src="colors.js"></script>
 </head>
 
 <body>
     <h1>Welcome to Square Off!</h1>
-    <h2>What board size do you want?</h2>
     <form id="sizeForm" style="display:block">
+        <h2>What board size do you want?</h2>
         <select onchange="drawBoard(this.value)">
             <option>Select</option>
             <option value=8>8</option>
