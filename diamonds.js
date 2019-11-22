@@ -160,31 +160,41 @@ function findUp(box) {
 }
 
 function fillDiamonds(diamonds) {
-    var delta = 1, fillBox, newColor;
-    if (diamonds.length > 0) {
-        for (var k = 0; k < diamonds.length; k++) {
-            x = diamonds[k].x;
-            y = diamonds[k].y;
-            d = diamonds[k].side;
-            c = diamonds[k].color;
-            for (var i = 1; i <= d; i++) {
-                for (var j = -delta; j <= delta; j++) {
-                    fillBox = board.box(x + j, y + i);
-                    newColor = getEndColor(fillBox.color, c);
-                    fillBox.color = newColor;
-                    fillBox.draw();
+    if (diamonds.length != 0) {
+        var delta = 1, fillBox, newColor;
+        var top, right, left, bottom;
+        var corners = [];
+        if (diamonds.length > 0) {
+            for (var k = 0; k < diamonds.length; k++) {
+                x = diamonds[k].x;
+                y = diamonds[k].y;
+                d = diamonds[k].side;
+                c = diamonds[k].color;
+                top = board.box(x, y);
+                left = board.box(x - d, y + d);
+                right = board.box(x + d, y + d);
+                bottom = board.box(x, y + 2 * d);
+                corners = [top, left, right, bottom];
+                toggleCorners(corners);
+                for (var i = 1; i <= d; i++) {
+                    for (var j = -delta; j <= delta; j++) {
+                        fillBox = board.box(x + j, y + i);
+                        newColor = getEndColor(fillBox.color, c);
+                        fillBox.color = newColor;
+                        fillBox.fill();
+                    }
+                    delta++;
                 }
-                delta++;
-            }
-            delta = d - 1;
-            for (i = d + 1; i < 2 * d; i++) {
-                for (var j = -delta; j <= delta; j++) {
-                    fillBox = board.box(x + j, y + i);
-                    newColor = getEndColor(fillBox.color, c);
-                    fillBox.color = newColor;
-                    fillBox.draw();
+                delta = d - 1;
+                for (i = d + 1; i < 2 * d; i++) {
+                    for (var j = -delta; j <= delta; j++) {
+                        fillBox = board.box(x + j, y + i);
+                        newColor = getEndColor(fillBox.color, c);
+                        fillBox.color = newColor;
+                        fillBox.fill();
+                    }
+                    delta--;
                 }
-                delta--;
             }
         }
     }

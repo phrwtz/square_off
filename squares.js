@@ -142,21 +142,28 @@ function findDownRight(box) {
     return null;
 }
 
-function getFillSquares(squares) {
-    var returnArray = [];
-    if (squares.length > 0) {
-        var thisSquare, s,
-            cornerColor;
-        for (let i = 0; i < squares.length; i++) {
-            if (squares[i]) {
-                s = squares[i];
-                cornerColor = board.box(s.x, s.y).color;
-                for (let i = s.x; i < s.x + s.side; i++) {
-                    for (let j = s.y; j < s.y + s.side; j++) {
-                        fillBox = board.box(i, j);
-                        fillBox.endColor = getEndColor(fillBox.color, cornerColor);
-                        returnArray.push(fillBox);
-                    }
+function fillSquares(squares) {
+    if (squares.length != 0) {
+        var s, upLeft, upRight, downLeft, downRight;
+        var corners = [];
+        for (let k = 0; k < squares.length; k++) {
+            s = squares[k];
+            x = s.x;
+            y = s.y;
+            d = s.side;
+            c = s.color;
+            upLeft = board.box(x, y);
+            upRight = board.box(x + d, y);
+            downLeft = board.box(x, y + d);
+            downRight = board.box(x + d, y + d);
+            corners = [upLeft, upRight, downLeft, downRight];
+            toggleCorners(corners);
+            for (let i = s.x; i <= s.x + s.side; i++) {
+                for (let j = s.y; j <= s.y + s.side; j++) {
+                    fillBox = board.box(i, j);
+                    newColor = getEndColor(fillBox.color, s.color);
+                    fillBox.color = newColor;
+                    fillBox.fill();
                 }
             }
         }
@@ -166,22 +173,17 @@ function getFillSquares(squares) {
 function getEndColor(startColor, cornerColor) {
     if ((startColor == "red") || (startColor == "blue")) {
         return startColor;
-    } else {
-        switch (startColor) {
-            case "white":
-                return cornerColor;
-            case "lightred":
-                if (cornerColor == "red") {
-                    return "red";
-                } else {
-                    return "lightblue";
-                }
-            case "lightblue":
-                if (cornerColor == "red") {
-                    return "lightred";
-                } else {
-                    return "blue";
-                }
+    } else if (cornerColor == 'red') {
+        if ((startColor == 'white') || (startColor == 'lightblue')) {
+            return 'lightred';
+        } else if (startColor == 'lightred') {
+            return 'red';
+        }
+    } else if (cornerColor == 'blue') {
+        if ((startColor == 'white') || (startColor == 'lightred')) {
+            return 'lightblue';
+        } else if (startColor == 'lightblue') {
+            return 'blue';
         }
     }
 }

@@ -20,12 +20,14 @@ function Board(size, boxes, init, draw) {
     this.turnNumber = 0;
     this.turnColor = "red";
     this.init = function () {
+        this.won = false;
         for (let j = 0; j < size; j++) {
             for (let i = 0; i < size; i++) {
                 thisBox = new Box(i, j);
                 this.boxesObj[thisBox.id] = thisBox;
                 this.boxesArr.push(thisBox);
                 thisBox.rect.setAttribute("onclick", "handleMove(this.id)");
+                thisBox.color = "white";
             }
         }
     };
@@ -54,30 +56,12 @@ function Board(size, boxes, init, draw) {
 }
 
 function Box(x, y) {
-    var hex = new Object,
-        dec = new Object,
-        boxId = x.toString() + "_" + y.toString();
-    rectId = x.toString() + "_" + y.toString();
-    hex["white"] = "#ffffff";
-    hex["wheat"] = "#f5deb3";
-    hex["red"] = "ff0000";
-    hex["lightred"] = "ffc0cb";
-    hex["lightblue"] = "add8e6";
-    hex["blue"] = "#0000ff";
-
-    dec["white"] = [255, 0, 0];
-    dec["wheat"] = [245, 222, 179];
-    dec["red"] = "ff0000";
-    dec["lightred"] = [255, 192, 203];
-    dec["lightblue"] = [175, 238, 238];
-    dec["blue"] = [0, 0, 255];
-
+    var id = x.toString() + "_" + y.toString();
     this.x = x;
     this.y = y;
-    this.id = boxId;
-    this.color = "white";
+    this.id = id;
     this.rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    this.rect.setAttribute("id", rectId);
+    this.rect.setAttribute("id", id);
     this.rect.setAttribute("width", "40");
     this.rect.setAttribute("height", "40");
     this.rect.setAttribute("x", ((x + 1) * 40).toString());
@@ -85,42 +69,15 @@ function Box(x, y) {
     this.rect.setAttribute("stroke", "black");
     this.rect.setAttribute("stroke-width", "1");
     this.draw = function () {
-        try {
-            var polarity = (this.x + this.y) % 2;
-            this.rect.setAttribute("fill", colorValue[this.color][polarity]);
-        } catch (err) {
-            console.log("color");
-        }
+        this.rect.style.transition = "fill o.1s";
+        var polarity = (this.x + this.y) % 2;
+        this.rect.color = this.color;
+        this.rect.setAttribute("fill", colorValue[this.color][polarity]);
     };
     this.fill = function () {
-        var tempColor = [];
-        var startColor = this.color;
-        var endColor = this.endColor;
-        var startRed, tempRed, endRed,
-            startGreen, tempGreen, endGreen,
-            startBlue, tempBlue, endBlue;
-        var int = setInterval(paint, 25);
-
-        function paint() {
-            if (i >= 100) {
-                clearInterval(int);
-            } else {
-                startRed = dec[startColor][0];
-                startGreen = dec[startColor][1];
-                startBlue = dec[startColor][2];
-                endRed = dec[endColor][0];
-                endGreen = dec[endColor][1];
-                endBlue = dec[endColor][2];
-                tempColor.push(startColor);
-                for (let i = 1; i < 99; i++) {
-                    tempRed = parseInt(((endRed * i + startRed * (100 - i)) / 100)).toString();
-                    tempBlue = parseInt(((endBlue * i + startBlue * (100 - i)) / 100)).toString();
-                    tempGreen = parseInt(((endGreen * i + startGreen * (100 - i)) / 100)).toString();
-                    tempColor.push("rgb(" + tempRed.toString() + ", " + tempBlue.toString() + ", " + tempGreen.toString() + ")");
-                }
-                tempColor.push(endColor);
-            }
-            i++
-        }
-    }
+        this.rect.style.transition = "fill 2s";
+        var polarity = (this.x + this.y) % 2;
+        this.rect.color = this.color;
+        this.rect.setAttribute("fill", colorValue[this.color][polarity]);
+    };
 }

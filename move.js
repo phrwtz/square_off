@@ -1,24 +1,24 @@
 function handleMove(rectId) {
-    var boxesToBeFilled = [], fillBox;
-    var infoPara = document.getElementById("infoPara");
-    var squares = [];
-    var boxId = rectId;
-    var thisBox = board.boxesObj[boxId];
-    //Do nothing if box is already either red or blue
-    if (thisBox.color == "red" || thisBox.color == "blue") {
-        console.log("Clicked on a red or blue box. No go.");
-    } else {
-        //If it's any other color, make it turnColor
-        thisBox.color = board.turnColor;
-        handleTurn();
-        thisBox.draw();
-        squares = findSquares(thisBox);
-        if (squares.length > 0) {
-            boxesToBeFilled = getFillSquares(squares);
-            for (let j = 0; j < boxesToBeFilled.length; j++) {
-                boxesToBeFilled[j].fill();
-                boxesToBeFilled[j].draw();    
-            }
+    if (!board.won) {
+        var boxesToBeFilled = [],
+            fillBox;
+        var infoPara = document.getElementById("infoPara");
+        var squares = [];
+        var boxId = rectId;
+        var thisBox = board.boxesObj[boxId];
+        //Do nothing if box is already either red or blue
+        if (thisBox.color == "red" || thisBox.color == "blue") {
+            console.log("Clicked on a red or blue box. No go.");
+        } else {
+            //If it's any other color, make it turnColor
+            thisBox.color = board.turnColor;
+            handleTurn();
+            thisBox.draw();
+            squares = findSquares(thisBox);
+            fillSquares(squares);
+            diamonds = findDiamonds(thisBox);
+            fillDiamonds(diamonds);
+            score();
         }
     }
 }
@@ -47,4 +47,40 @@ function handleTurn() {
     turnColorStr = (infoColor == "red" ? "Red's " : "Blue's ");
     infoStr = turnColorStr + turnNumberStr;
     infoPara.innerHTML = "<h2><span style=\"color:" + infoColor + "\">" + infoStr + "</span></h2>"
+}
+
+function score() {
+    var redCount = 0,
+        blueCount = 0,
+        lightRedCount = 0,
+        lightBlueCount = 0,
+        color,
+        infoPara = document.getElementById("infoPara");
+    for (var x = 0; x < board.size; x++) {
+        for (var y = 0; y < board.size; y++) {
+            color = board.box(x, y).color;
+            switch (color) {
+                case "red":
+                    redCount++;
+                    break;
+                case "blue":
+                    blueCount++;
+                    break;
+                case "lightred":
+                    lightRedCount++;
+                    break;
+                case "lightblue":
+                    lightBlueCount++;
+                    break;
+            }
+        }
+    }
+    infoPara.innerHTML += ("<span style='color:red; font-size:24'>" + redCount + ", </span> <span style='color:blue; font-size:24'>" + blueCount + ", </span> <span style='color:hotpink; font-size:24'>" + lightRedCount + ", </span><span style='color:cornflowerblue; font-size:24'>" + lightBlueCount + "</span >");
+    if (redCount > board.boxesArr.length / 2) {
+        board.won = true;
+        infoPara.innerHTML += ("<br><br><span style='color:red; font-size:24'>Red wins!</span>");
+    } else if (blueCount > board.boxesArr.length / 2) {
+        board.won = true;
+        infoPara.innerHTML += "<br><br><span style='color:blue; font-size:24'>Blue wins!</span>";
+    }
 }
