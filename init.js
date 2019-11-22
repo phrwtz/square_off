@@ -69,7 +69,7 @@ function Box(x, y) {
     this.rect.setAttribute("stroke", "black");
     this.rect.setAttribute("stroke-width", "1");
     this.draw = function () {
-        this.rect.style.transition = "fill o.1s";
+        this.rect.style.transition = "fill 0.1s";
         var polarity = (this.x + this.y) % 2;
         this.rect.color = this.color;
         this.rect.setAttribute("fill", colorValue[this.color][polarity]);

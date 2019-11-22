@@ -35,7 +35,7 @@ function findLeft(box) {
         downBox,
         downColor,
         min;
-    if ((box.x > 0) && (box.x < board.size - 2) && (box.y > 0) && (box.y < board.size - 1)) {
+    if ((box.x > 1) && (box.y > 0)) {
         min = Math.min(Math.floor(box.x / 2), box.y, (board.size - 1) - box.y);
         for (let d = min; d > 0; d--) {
             console.log("Searching left. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
@@ -46,7 +46,7 @@ function findLeft(box) {
             downBox = board.box(box.x - d, box.y + d);
             downColor = downBox.color;
             if ((leftColor == box.color) && (upColor == box.color) && (downColor == box.color)) {
-                leftDiamond = new Diamond;
+                leftDiamond = new Diamond();
                 leftDiamond.x = upBox.x;
                 leftDiamond.y = upBox.y;
                 leftDiamond.side = d;
@@ -68,7 +68,7 @@ function findRight(box) {
         downBox,
         downColor,
         min;
-    if ((box.x > 0) && (box.x < board.size - 2) && (box.y > 0) && (box.y < board.size - 1)) {
+    if ((box.x < board.size - 2) && (box.y > 0)) {
         min = Math.min(Math.floor(((board.size - 1) - box.x) / 2), box.y, ((board.size - 1) - box.y));
         for (let d = min; d > 0; d--) {
             console.log("Searching right. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
@@ -79,7 +79,7 @@ function findRight(box) {
             downBox = board.box(box.x + d, box.y + d);
             downColor = downBox.color;
             if ((rightColor == box.color) && (upColor == box.color) && (downColor == box.color)) {
-                rightDiamond = new Diamond;
+                rightDiamond = new Diamond();
                 rightDiamond.x = upBox.x;
                 rightDiamond.y = upBox.y;
                 rightDiamond.side = d;
@@ -101,7 +101,7 @@ function findDown(box) {
         downBox,
         downColor,
         min;
-    if ((box.x > 0) && (box.x < board.size - 2) && (box.y > 0) && (box.y < board.size - 1)) {
+    if ((box.x > 0) && (box.x < board.size - 1) && (box.y < board.size - 2)) {
         min = Math.min(Math.floor(((board.size - 1) - box.y) / 2), box.x, ((board.size - 1) - box.x));
         for (let d = min; d > 0; d--) {
             console.log("Searching down. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
@@ -112,7 +112,7 @@ function findDown(box) {
             downBox = board.box(box.x, box.y + 2 * d);
             downColor = downBox.color;
             if ((rightColor == box.color) && (leftColor == box.color) && (downColor == box.color)) {
-                downDiamond = new Diamond;
+                downDiamond = new Diamond();
                 downDiamond.x = box.x;
                 downDiamond.y = box.y;
                 downDiamond.side = d;
@@ -134,7 +134,7 @@ function findUp(box) {
         upBox,
         upColor,
         min;
-    if ((box.x > 0) && (box.x < board.size - 2) && (box.y > 0) && (box.y < board.size - 1)) {
+    if ((box.x > 0) && (box.x < board.size - 1) && (box.y > 1)) {
         min = Math.min(Math.floor(box.y / 2), box.x, ((board.size - 1) - box.x));
         for (let d = min; d > 0; d--) {
             console.log("Searching up. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
@@ -145,7 +145,7 @@ function findUp(box) {
             upBox = board.box(box.x, box.y - 2 * d);
             upColor = upBox.color;
             if ((rightColor == box.color) && (upColor == box.color) && (leftColor == box.color)) {
-                upDiamond = new Diamond;
+                upDiamond = new Diamond();
                 upDiamond.x = upBox.x;
                 upDiamond.y = upBox.y;
                 upDiamond.side = d;

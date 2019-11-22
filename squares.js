@@ -47,7 +47,7 @@ function findUpLeft(box) {
             upLeftBox = board.box(box.x - d, box.y - d);
             upLeftColor = upLeftBox.color;
             if ((leftColor == box.color) && (upColor == box.color) && (upLeftColor == box.color)) {
-                upLeftSquare = new Square;
+                upLeftSquare = new Square();
                 upLeftSquare.x = box.x - d;
                 upLeftSquare.y = box.y - d;
                 upLeftSquare.side = d;
@@ -74,14 +74,13 @@ function findUpRight(box) {
             upRightBox = board.box(box.x + d, box.y - d);
             upRightColor = upRightBox.color;
             if ((rightColor == box.color) && (upColor == box.color) && (upRightColor == box.color)) {
-                upRightSquare = new Square;
+                upRightSquare = new Square();
                 upRightSquare.x = box.x;
                 upRightSquare.y = box.y - d;
                 upRightSquare.side = d;
                 upRightSquare.color = box.color;
                 console.log("Up right square detected with side " + upRightSquare.side);
                 return upRightSquare;
-                break;
             }
         }
     }
@@ -101,14 +100,13 @@ function findDownLeft(box) {
             downLeftBox = board.box(box.x - d, box.y + d);
             downLeftColor = downLeftBox.color;
             if ((leftColor == box.color) && (downColor == box.color) && (downLeftColor == box.color)) {
-                downLeftSquare = new Square;
+                downLeftSquare = new Square();
                 downLeftSquare.x = box.x - d;
                 downLeftSquare.y = box.y;
                 downLeftSquare.side = d;
                 downLeftSquare.color = box.color;
                 console.log("Down left square detected with side " + downLeftSquare.side);
                 return downLeftSquare;
-                break;
             }
         }
     }
@@ -128,14 +126,13 @@ function findDownRight(box) {
             downRightBox = board.box(box.x + d, box.y + d);
             downRightColor = downRightBox.color;
             if ((rightColor == box.color) && (downColor == box.color) && (downRightColor == box.color)) {
-                downRightSquare = new Square;
+                downRightSquare = new Square();
                 downRightSquare.x = box.x;
                 downRightSquare.y = box.y;
                 downRightSquare.side = d;
                 downRightSquare.color = box.color;
                 console.log("Down right square detected with side " + downRightSquare.side);
                 return downRightSquare;
-                break;
             }
         }
     }
