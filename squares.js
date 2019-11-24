@@ -9,10 +9,11 @@ function Square(x, y, side, color) {
 //Starting from the location of <box>, look up-left, up-right, down-left, and down-right for any combination of three boxes filled with the color of box. Return an array with the largest such square in each direction. 
 function findSquares(box) {
     var returnArray = [];
-    var upLeftSquare = findUpLeft(box);
-    var upRightSquare = findUpRight(box);
-    var downLeftSquare = findDownLeft(box);
-    var downRightSquare = findDownRight(box);
+    var color = box.color;
+    var upLeftSquare = findUpLeft(box,color);
+    var upRightSquare = findUpRight(box,color);
+    var downLeftSquare = findDownLeft(box,color);
+    var downRightSquare = findDownRight(box,color);
     if (upLeftSquare) {
         returnArray.push(upLeftSquare);
     }
@@ -28,7 +29,7 @@ function findSquares(box) {
     return returnArray;
 }
 
-function findUpLeft(box) {
+function findUpLeft(box,color) {
     var leftBox,
         leftColor,
         upBox,
@@ -46,12 +47,12 @@ function findUpLeft(box) {
             upColor = upBox.color;
             upLeftBox = board.box(box.x - d, box.y - d);
             upLeftColor = upLeftBox.color;
-            if ((leftColor == box.color) && (upColor == box.color) && (upLeftColor == box.color)) {
+            if ((leftColor == color) && (upColor == color) && (upLeftColor == color)) {
                 upLeftSquare = new Square();
                 upLeftSquare.x = box.x - d;
                 upLeftSquare.y = box.y - d;
                 upLeftSquare.side = d;
-                upLeftSquare.color = box.color;
+                upLeftSquare.color = color;
                 console.log("Up left square detected with side " + upLeftSquare.side);
                 return upLeftSquare;
                 break;
@@ -61,7 +62,7 @@ function findUpLeft(box) {
     return null;
 }
 
-function findUpRight(box) {
+function findUpRight(box,color) {
     var rightBox, rightColor, upBox, upColor, upRightBox, upRightColor, min, id;
     if ((box.x < (board.size - 1)) && (box.y > 1)) {
         min = Math.min((board.size - 1) - box.x, box.y);
@@ -73,12 +74,12 @@ function findUpRight(box) {
             upColor = upBox.color;
             upRightBox = board.box(box.x + d, box.y - d);
             upRightColor = upRightBox.color;
-            if ((rightColor == box.color) && (upColor == box.color) && (upRightColor == box.color)) {
+            if ((rightColor == color) && (upColor == color) && (upRightColor == color)) {
                 upRightSquare = new Square();
                 upRightSquare.x = box.x;
                 upRightSquare.y = box.y - d;
                 upRightSquare.side = d;
-                upRightSquare.color = box.color;
+                upRightSquare.color = color;
                 console.log("Up right square detected with side " + upRightSquare.side);
                 return upRightSquare;
             }
@@ -87,7 +88,7 @@ function findUpRight(box) {
     return null;
 }
 
-function findDownLeft(box) {
+function findDownLeft(box,color) {
     var leftBox, leftColor, downBox, downColor, downLeftBox, downLeftColor, min, id;
     if ((box.x > 1) && (box.y < board.size - 1)) {
         min = Math.min(box.x, (board.size - 1) - box.y);
@@ -99,12 +100,12 @@ function findDownLeft(box) {
             downColor = downBox.color;
             downLeftBox = board.box(box.x - d, box.y + d);
             downLeftColor = downLeftBox.color;
-            if ((leftColor == box.color) && (downColor == box.color) && (downLeftColor == box.color)) {
+            if ((leftColor == color) && (downColor == color) && (downLeftColor == color)) {
                 downLeftSquare = new Square();
                 downLeftSquare.x = box.x - d;
                 downLeftSquare.y = box.y;
                 downLeftSquare.side = d;
-                downLeftSquare.color = box.color;
+                downLeftSquare.color = color;
                 console.log("Down left square detected with side " + downLeftSquare.side);
                 return downLeftSquare;
             }
@@ -113,7 +114,7 @@ function findDownLeft(box) {
     return null;
 }
 
-function findDownRight(box) {
+function findDownRight(box,color) {
     var rightBox, rightColor, downBox, downColor, downRightBox, downRightColor, min, id;
     if ((box.x < board.size - 1) && (box.y < board.size - 1)) {
         min = Math.min((board.size - 1) - box.x, (board.size - 1) - box.y);
@@ -125,12 +126,12 @@ function findDownRight(box) {
             downColor = downBox.color;
             downRightBox = board.box(box.x + d, box.y + d);
             downRightColor = downRightBox.color;
-            if ((rightColor == box.color) && (downColor == box.color) && (downRightColor == box.color)) {
+            if ((rightColor == color) && (downColor == color) && (downRightColor == color)) {
                 downRightSquare = new Square();
                 downRightSquare.x = box.x;
                 downRightSquare.y = box.y;
                 downRightSquare.side = d;
-                downRightSquare.color = box.color;
+                downRightSquare.color = color;
                 console.log("Down right square detected with side " + downRightSquare.side);
                 return downRightSquare;
             }
