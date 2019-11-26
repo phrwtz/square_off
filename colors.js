@@ -18,3 +18,22 @@ function toggleCorners(corners) {
             }
         }, 1000);
 }
+
+function getEndColor(startColor, cornerColor) {
+    if ((startColor == "red") || (startColor == "blue")) {
+        return startColor;
+    } else if (cornerColor == 'red') {
+        if ((startColor == 'white') || (startColor == 'lightblue')) {
+            return 'lightred';
+        } else if (startColor == 'lightred') {
+            return 'red';
+        }
+    } else if (cornerColor == 'blue') {
+        if ((startColor == 'white') || (startColor == 'lightred')) {
+            return 'lightblue';
+        } else if (startColor == 'lightblue') {
+            return 'blue';
+        }
+    }
+}
+

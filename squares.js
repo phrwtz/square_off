@@ -53,7 +53,7 @@ function findUpLeft(box,color) {
                 upLeftSquare.y = box.y - d;
                 upLeftSquare.side = d;
                 upLeftSquare.color = color;
-                console.log("Up left square detected with side " + upLeftSquare.side);
+     //           console.log("Up left square detected with side " + upLeftSquare.side);
                 return upLeftSquare;
                 break;
             }
@@ -80,7 +80,7 @@ function findUpRight(box,color) {
                 upRightSquare.y = box.y - d;
                 upRightSquare.side = d;
                 upRightSquare.color = color;
-                console.log("Up right square detected with side " + upRightSquare.side);
+     //           console.log("Up right square detected with side " + upRightSquare.side);
                 return upRightSquare;
             }
         }
@@ -106,7 +106,7 @@ function findDownLeft(box,color) {
                 downLeftSquare.y = box.y;
                 downLeftSquare.side = d;
                 downLeftSquare.color = color;
-                console.log("Down left square detected with side " + downLeftSquare.side);
+     //           console.log("Down left square detected with side " + downLeftSquare.side);
                 return downLeftSquare;
             }
         }
@@ -132,7 +132,7 @@ function findDownRight(box,color) {
                 downRightSquare.y = box.y;
                 downRightSquare.side = d;
                 downRightSquare.color = color;
-                console.log("Down right square detected with side " + downRightSquare.side);
+     //           console.log("Down right square detected with side " + downRightSquare.side);
                 return downRightSquare;
             }
         }
@@ -164,24 +164,6 @@ function fillSquares(squares) {
                     fillBox.fill();
                 }
             }
-        }
-    }
-}
-
-function getEndColor(startColor, cornerColor) {
-    if ((startColor == "red") || (startColor == "blue")) {
-        return startColor;
-    } else if (cornerColor == 'red') {
-        if ((startColor == 'white') || (startColor == 'lightblue')) {
-            return 'lightred';
-        } else if (startColor == 'lightred') {
-            return 'red';
-        }
-    } else if (cornerColor == 'blue') {
-        if ((startColor == 'white') || (startColor == 'lightred')) {
-            return 'lightblue';
-        } else if (startColor == 'lightblue') {
-            return 'blue';
         }
     }
 }

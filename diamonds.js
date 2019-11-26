@@ -38,7 +38,7 @@ function findLeft(box) {
     if ((box.x > 1) && (box.y > 0)) {
         min = Math.min(Math.floor(box.x / 2), box.y, (board.size - 1) - box.y);
         for (let d = min; d > 0; d--) {
-            console.log("Searching left. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
+    //        console.log("Searching left. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
             leftBox = board.box(box.x - 2 * d, box.y);
             leftColor = leftBox.color;
             upBox = board.box(box.x - d, box.y - d);
@@ -71,7 +71,7 @@ function findRight(box) {
     if ((box.x < board.size - 2) && (box.y > 0)) {
         min = Math.min(Math.floor(((board.size - 1) - box.x) / 2), box.y, ((board.size - 1) - box.y));
         for (let d = min; d > 0; d--) {
-            console.log("Searching right. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
+     //       console.log("Searching right. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
             rightBox = board.box(box.x + 2 * d, box.y);
             rightColor = rightBox.color;
             upBox = board.box(box.x + d, box.y - d);
@@ -104,7 +104,7 @@ function findDown(box) {
     if ((box.x > 0) && (box.x < board.size - 1) && (box.y < board.size - 2)) {
         min = Math.min(Math.floor(((board.size - 1) - box.y) / 2), box.x, ((board.size - 1) - box.x));
         for (let d = min; d > 0; d--) {
-            console.log("Searching down. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
+   //         console.log("Searching down. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
             rightBox = board.box(box.x + d, box.y + d);
             rightColor = rightBox.color;
             leftBox = board.box(box.x - d, box.y + d);
@@ -137,7 +137,7 @@ function findUp(box) {
     if ((box.x > 0) && (box.x < board.size - 1) && (box.y > 1)) {
         min = Math.min(Math.floor(box.y / 2), box.x, ((board.size - 1) - box.x));
         for (let d = min; d > 0; d--) {
-            console.log("Searching up. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
+  //          console.log("Searching up. x = " + box.x + ", y = " + box.y + ", min = " + min + ",d = " + d);
             rightBox = board.box(box.x + d, box.y - d);
             rightColor = rightBox.color;
             leftBox = board.box(box.x - d, box.y - d);
