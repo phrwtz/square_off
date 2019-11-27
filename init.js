@@ -33,6 +33,7 @@ function Board(size, boxes, init, draw) {
     };
     this.draw = function (size) {
         var thisBox,
+            g = document.getElementById("boardGroup"),
             outerRect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
         outerRect.setAttribute("fill", "none");
         outerRect.setAttribute("stroke", "black");
@@ -42,6 +43,22 @@ function Board(size, boxes, init, draw) {
         outerRect.setAttribute("width", (this.size * 40).toString());
         outerRect.setAttribute("height", (this.size * 40).toString());
         container.appendChild(outerRect);
+        for (let j = 0; j < this.size; j++) {
+            xText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            xText.setAttribute("x", (95 + 40 * (j - 1)).toString());
+            xText.setAttribute("y", "25");
+            var xTextNode = document.createTextNode((j + 1).toString());
+            xText.appendChild(xTextNode);
+            g.appendChild(xText);
+
+            yText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+            yText.setAttribute("x", "18");
+            yText.setAttribute("y", (102 + 40 * (j - 1)).toString());
+            yTextNode = document.createTextNode((j + 1).toString());
+            yText.appendChild(yTextNode);
+            g.appendChild(yText);
+        }
+
         for (let i = 0; i < this.boxesArr.length; i++) {
             thisBox = this.boxesArr[i];
             thisBox.draw();
