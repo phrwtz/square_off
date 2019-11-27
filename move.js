@@ -55,7 +55,8 @@ function score() {
         lightRedCount = 0,
         lightBlueCount = 0,
         color,
-        infoPara = document.getElementById("infoPara");
+        infoPara = document.getElementById("infoPara"),
+        hintButton = document.getElementById("hintButton");
     for (var x = 0; x < board.size; x++) {
         for (var y = 0; y < board.size; y++) {
             color = board.box(x, y).color;
@@ -78,9 +79,11 @@ function score() {
     infoPara.innerHTML += ("<span style='color:red; font-size:24'>" + redCount + ", </span> <span style='color:blue; font-size:24'>" + blueCount + ", </span> <span style='color:hotpink; font-size:24'>" + lightRedCount + ", </span><span style='color:cornflowerblue; font-size:24'>" + lightBlueCount + "</span >");
     if (redCount > board.boxesArr.length / 2) {
         board.won = true;
+        hintButton.style.display = "none";
         infoPara.innerHTML += ("<br><br><span style='color:red; font-size:24'>Red wins!</span>");
     } else if (blueCount > board.boxesArr.length / 2) {
         board.won = true;
+        hintButton.style.display = "none";
         infoPara.innerHTML += "<br><br><span style='color:blue; font-size:24'>Blue wins!</span>";
     }
 }
