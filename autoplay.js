@@ -41,9 +41,9 @@ function findPsquares() {
         }
     }
     if (allScores == 0) {
-        console.log("No squares available for " + board.turnColor);
+        alert("No hint available for " + board.turnColor);
     } else {
-        console.log("Try clicking on (" + (allX + 1) + ", " + (allY + 1) + ")!");
+        alert("Try clicking on (" + (allX + 1) + ", " + (allY + 1) + ")!");
     }
 }
 
@@ -52,7 +52,7 @@ function scoreSquare(s) {
     if (!s) {
         return 0;
     }
-    console.log("Square detected at " + s.x + ", " + s.y + " with side " + s.side);
+ //   console.log("Square detected at " + s.x + ", " + s.y + " with side " + s.side);
     var score = 0,
         fillBox;
     for (let i = s.x; i <= s.x + s.side; i++) {
@@ -64,7 +64,7 @@ function scoreSquare(s) {
             }
         }
     }
-    console.log("Score = " + score);
+//    console.log("Score = " + score);
     return score;
 }
 

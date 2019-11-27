@@ -146,22 +146,24 @@ function fillSquares(squares) {
         var corners = [];
         for (let k = 0; k < squares.length; k++) {
             s = squares[k];
-            x = s.x;
-            y = s.y;
-            d = s.side;
-            c = s.color;
-            upLeft = board.box(x, y);
-            upRight = board.box(x + d, y);
-            downLeft = board.box(x, y + d);
-            downRight = board.box(x + d, y + d);
-            corners = [upLeft, upRight, downLeft, downRight];
-            toggleCorners(corners);
-            for (let i = s.x; i <= s.x + s.side; i++) {
-                for (let j = s.y; j <= s.y + s.side; j++) {
-                    fillBox = board.box(i, j);
-                    newColor = getEndColor(fillBox.color, s.color);
-                    fillBox.color = newColor;
-                    fillBox.fill();
+            if (scoreSquare(squares[k]) > 0) {
+                x = s.x;
+                y = s.y;
+                d = s.side;
+                c = s.color;
+                upLeft = board.box(x, y);
+                upRight = board.box(x + d, y);
+                downLeft = board.box(x, y + d);
+                downRight = board.box(x + d, y + d);
+                corners = [upLeft, upRight, downLeft, downRight];
+                toggleCorners(corners);
+                for (let i = s.x; i <= s.x + s.side; i++) {
+                    for (let j = s.y; j <= s.y + s.side; j++) {
+                        fillBox = board.box(i, j);
+                        newColor = getEndColor(fillBox.color, s.color);
+                        fillBox.color = newColor;
+                        fillBox.fill();
+                    }
                 }
             }
         }
