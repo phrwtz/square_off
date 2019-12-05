@@ -2,7 +2,6 @@ function handleMove(rectId) {
     if (!board.won) {
         var boxesToBeFilled = [],
             fillBox;
-        var infoPara = document.getElementById("infoPara");
         var squares = [];
         var boxId = rectId;
         var thisBox = board.boxesObj[boxId];
@@ -12,13 +11,13 @@ function handleMove(rectId) {
         } else {
             //If it's any other color, make it turnColor
             thisBox.color = board.turnColor;
-            handleTurn();
             thisBox.draw();
-            squares = findSquares(thisBox);
+            squares = findSquares(thisBox, thisBox.color);
             fillSquares(squares);
-            diamonds = findDiamonds(thisBox);
+            diamonds = findDiamonds(thisBox, board.turnColor);
             fillDiamonds(diamonds);
-            score();
+            handleTurn(); //Figure out next turn color
+            score(); //And figure out the score
         }
     }
 }
@@ -27,8 +26,7 @@ function handleTurn() {
     var turnNumberStr,
         turnColorStr,
         infoStr,
-        infoColor,
-        infoPara = document.getElementById("infoPara");
+        infoColor;
     //If this is the zero'th or second turn, we change the turn color
     if ((board.turnNumber == 0) || (board.turnNumber == 2)) {
         if (board.turnColor == "red") {
@@ -54,9 +52,7 @@ function score() {
         blueCount = 0,
         lightRedCount = 0,
         lightBlueCount = 0,
-        color,
-        infoPara = document.getElementById("infoPara"),
-        hintButton = document.getElementById("hintButton");
+        color;
     for (var x = 0; x < board.size; x++) {
         for (var y = 0; y < board.size; y++) {
             color = board.box(x, y).color;
@@ -76,6 +72,7 @@ function score() {
             }
         }
     }
+    infoPara.style.display = "block";
     infoPara.innerHTML += ("<span style='color:red; font-size:24'>" + redCount + ", </span> <span style='color:blue; font-size:24'>" + blueCount + ", </span> <span style='color:hotpink; font-size:24'>" + lightRedCount + ", </span><span style='color:cornflowerblue; font-size:24'>" + lightBlueCount + "</span >");
     if (redCount > board.boxesArr.length / 2) {
         board.won = true;

@@ -6,12 +6,12 @@ function Diamond(x, y, side, color) {
     this.color = color;
 };
 
-function findDiamonds(box) {
+function findDiamonds(box,color) {
     var returnArray = [];
-    var leftDiamond = findLeft(box);
-    var upDiamond = findUp(box);
-    var downDiamond = findDown(box);
-    var rightDiamond = findRight(box);
+    var leftDiamond = findLeft(box, color);
+    var upDiamond = findUp(box, color);
+    var downDiamond = findDown(box, color);
+    var rightDiamond = findRight(box, color);
     if (leftDiamond) {
         returnArray.push(leftDiamond);
     }
@@ -27,7 +27,7 @@ function findDiamonds(box) {
     return returnArray;
 }
 
-function findLeft(box) {
+function findLeft(box, color) {
     var leftBox,
         leftColor,
         upBox,
@@ -45,13 +45,13 @@ function findLeft(box) {
             upColor = upBox.color;
             downBox = board.box(box.x - d, box.y + d);
             downColor = downBox.color;
-            if ((leftColor == box.color) && (upColor == box.color) && (downColor == box.color)) {
+            if ((leftColor == color) && (upColor == color) && (downColor == color)) {
                 leftDiamond = new Diamond();
                 leftDiamond.x = upBox.x;
                 leftDiamond.y = upBox.y;
                 leftDiamond.side = d;
-                leftDiamond.color = box.color;
-                console.log("Left diamond detected with side " + leftDiamond.side);
+                leftDiamond.color = upBox.color;
+                console.log("Left diamond detected with side " + leftDiamond.side + " at " + (box.x + 1) + ", " + (box.y + 1));
                 return leftDiamond;
                 break;
             }
@@ -60,7 +60,7 @@ function findLeft(box) {
     return null;
 }
 
-function findRight(box) {
+function findRight(box, color) {
     var leftBox,
         leftColor,
         upBox,
@@ -78,13 +78,13 @@ function findRight(box) {
             upColor = upBox.color;
             downBox = board.box(box.x + d, box.y + d);
             downColor = downBox.color;
-            if ((rightColor == box.color) && (upColor == box.color) && (downColor == box.color)) {
+            if ((rightColor == color) && (upColor == color) && (downColor == color)) {
                 rightDiamond = new Diamond();
                 rightDiamond.x = upBox.x;
                 rightDiamond.y = upBox.y;
                 rightDiamond.side = d;
-                rightDiamond.color = box.color;
-                console.log("Right diamond detected with side " + rightDiamond.side);
+                rightDiamond.color = upBox.color;
+                console.log("Right diamond detected with side " + rightDiamond.side + " at " + (box.x + 1) + ", " + (box.y + 1));
                 return rightDiamond;
                 break;
             }
@@ -93,7 +93,7 @@ function findRight(box) {
     return null;
 }
 
-function findDown(box) {
+function findDown(box, color) {
     var leftBox,
         leftColor,
         rightBox,
@@ -111,13 +111,13 @@ function findDown(box) {
             leftColor = leftBox.color;
             downBox = board.box(box.x, box.y + 2 * d);
             downColor = downBox.color;
-            if ((rightColor == box.color) && (leftColor == box.color) && (downColor == box.color)) {
+            if ((rightColor == color) && (leftColor == color) && (downColor == color)) {
                 downDiamond = new Diamond();
                 downDiamond.x = box.x;
                 downDiamond.y = box.y;
                 downDiamond.side = d;
-                downDiamond.color = box.color;
-                console.log("Down diamond detected with side " + downDiamond.side);
+                downDiamond.color = downBox.color;
+                console.log("Down diamond detected with side " + downDiamond.side + " at " + (box.x + 1) + ", " + (box.y + 1));
                 return downDiamond;
                 break;
             }
@@ -126,7 +126,7 @@ function findDown(box) {
     return null;
 }
 
-function findUp(box) {
+function findUp(box, color) {
     var leftBox,
         leftColor,
         rightBox,
@@ -144,13 +144,13 @@ function findUp(box) {
             leftColor = leftBox.color;
             upBox = board.box(box.x, box.y - 2 * d);
             upColor = upBox.color;
-            if ((rightColor == box.color) && (upColor == box.color) && (leftColor == box.color)) {
+            if ((rightColor == color) && (upColor == color) && (leftColor == color)) {
                 upDiamond = new Diamond();
                 upDiamond.x = upBox.x;
                 upDiamond.y = upBox.y;
                 upDiamond.side = d;
-                upDiamond.color = box.color;
-                console.log("Up diamond detected with side " + upDiamond.side);
+                upDiamond.color = upBox.color;
+                console.log("Up diamond detected at box " + (box.x + 1) + ", " + (box.y + 1) + " with side " + upDiamond.side);
                 return upDiamond;
                 break;
             }

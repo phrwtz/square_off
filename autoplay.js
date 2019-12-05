@@ -1,5 +1,17 @@
+//Come here for a hint. First find the best square, then the best diamond.
+function findP() {
+    bestSquare = findPsquares(board.turnColor);
+    bestDiamond = findPdiamonds(board.turnColor);
+    if (bestSquare) {
+        infoPara.innerHTML += ("<br>You can make a square worth " + bestSquare[1] + " points by clicking on " + (bestSquare[0].x + 1) + ", " + (bestSquare[0].y + 1) + ".")
+    }
+    if (bestDiamond) {
+        infoPara.innerHTML += ("<br>You can make a diamond worth " + bestDiamond[1] + " points by clicking on " + (bestDiamond[0].x + 1) + ", " + (bestDiamond[0].y + 1) + ".")
+    }
+}
+
 //Run through all the available boxes and return every psquare (every square that would be created if that box were either blue or red) and its score
-function findPsquares() {
+function findPsquares(color) {
     var returnScore = 0,
         thisScore,
         allScores = 0,
@@ -13,19 +25,19 @@ function findPsquares() {
             thisBox = board.box(x, y);
             thisScore = 0;
             if ((thisBox.color == "white") || (thisBox.color == "lightred") || (thisBox.color == "lightblue")) {
-                upLeftScore = scoreSquare(findUpLeft(thisBox, board.turnColor));
+                upLeftScore = scoreSquare(findUpLeft(thisBox, color));
                 if (upLeftScore > thisScore) {
                     thisScore = upLeftScore;
                 }
-                upRightScore = scoreSquare(findUpRight(thisBox, board.turnColor));
+                upRightScore = scoreSquare(findUpRight(thisBox, color));
                 if (upRightScore > thisScore) {
                     thisScore = upRightScore;
                 }
-                downLeftScore = scoreSquare(findDownLeft(thisBox, board.turnColor));
+                downLeftScore = scoreSquare(findDownLeft(thisBox, color));
                 if (downLeftScore > thisScore) {
                     thisScore = downLeftScore;
                 }
-                downRightScore = scoreSquare(findDownRight(thisBox, board.turnColor));
+                downRightScore = scoreSquare(findDownRight(thisBox, color));
                 if (downRightScore > thisScore) {
                     thisScore = downRightScore;
                 }
@@ -36,15 +48,100 @@ function findPsquares() {
                     allX = x;
                     allY = y;
                 }
-                console.log("Clicking the box at (" + x + ", " + y + ") scores " + thisScore + " for " + board.turnColor);
+                console.log("Clicking the box at (" + (x + 1) +
+                    ", " + (y + 1) + ") scores " + thisScore + " for " + color);
             }
         }
     }
     if (allScores == 0) {
-        alert("No hint available for " + board.turnColor);
+        return null;
     } else {
-        alert("Try clicking on (" + (allX + 1) + ", " + (allY + 1) + ")!");
+        return [board.box(allX, allY), allScores];
     }
+}
+
+//Run through all the available boxes and return every pdiamond (every diamond that would be created if that box were either blue or red) and its score
+function findPdiamonds(color) {
+    var returnScore = 0,
+        thisScore,
+        allScores = 0,
+        thisBox,
+        upScore,
+        rightScore,
+        downScore,
+        leftScore;
+    for (let x = 0; x < board.size; x++) {
+        for (let y = 0; y < board.size; y++) {
+            thisBox = board.box(x, y);
+            thisScore = 0;
+            if ((thisBox.color == "white") || (thisBox.color == "lightred") || (thisBox.color == "lightblue")) {
+                upScore = scoreDiamond(findUp(thisBox, color));
+                if (upScore > thisScore) {
+                    thisScore = upScore;
+                }
+                rightScore = scoreDiamond(findRight(thisBox, color));
+                if (rightScore > thisScore) {
+                    thisScore = rightScore;
+                }
+                downScore = scoreDiamond(findDown(thisBox, color));
+                if (downScore > thisScore) {
+                    thisScore = downScore;
+                }
+                leftScore = scoreDiamond(findLeft(thisBox, color));
+                if (leftScore > thisScore) {
+                    thisScore = leftScore;
+                }
+            }
+            if (thisScore > 0) {
+                if (thisScore > allScores) {
+                    allScores = thisScore;
+                    allX = x;
+                    allY = y;
+                }
+                console.log("Clicking the box at (" + (x + 1) + ", " + (y + 1) + ") scores " + thisScore + " for " + color);
+            }
+        }
+    }
+    if (allScores == 0) {
+        return null;
+    } else {
+        return [board.box(allX, allY), allScores];
+    }
+}
+
+function scoreDiamond(d) {
+    if (!d) {
+        return 0;
+    }
+    var x = d.x,
+        y = d.y,
+        side = d.side,
+        c = d.color,
+        top = board.box(x, y),
+        left = board.box(x - side, y + side),
+        right = board.box(x + side, y + side),
+        bottom = board.box(x, y + 2 * side),
+        delta = 1,
+        diamondScore = 0,
+        fillBox, fillScore;
+    for (let i = 1; i <= side; i++) {
+        for (let j = -delta; j <= delta; j++) {
+            fillBox = board.box(x + j, y + i);
+            fillScore = scoreBox(fillBox.color, d.color);
+            diamondScore = diamondScore + fillScore;
+        }
+        delta++;
+    }
+    delta = side - 1;
+    for (i = side + 1; i < 2 * side; i++) {
+        for (var j = -delta; j <= delta; j++) {
+            fillBox = board.box(x + j, y + i);
+            fillScore = scoreBox(fillBox.color, d.color);
+            diamondScore = diamondScore + fillScore;
+        }
+        delta--;
+    }
+    return diamondScore;
 }
 
 //Return a numerical score for <square> counting one point every white fill box that turns lightblue or lightred, two points for every lightblue box that turns lightred or lightblue box that turns lightred, and three points for every lightred box that turn red or lightblue box that turns blue.
@@ -52,7 +149,7 @@ function scoreSquare(s) {
     if (!s) {
         return 0;
     }
- //   console.log("Square detected at " + s.x + ", " + s.y + " with side " + s.side);
+    //   console.log("Square detected at " + s.x + ", " + s.y + " with side " + s.side);
     var score = 0,
         fillBox;
     for (let i = s.x; i <= s.x + s.side; i++) {
@@ -64,7 +161,7 @@ function scoreSquare(s) {
             }
         }
     }
-//    console.log("Score = " + score);
+    //    console.log("Score = " + score);
     return score;
 }
 

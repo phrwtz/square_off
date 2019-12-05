@@ -7,7 +7,7 @@ function Square(x, y, side, color) {
 };
 
 //Starting from the location of <box>, look up-left, up-right, down-left, and down-right for any combination of three boxes filled with the color of box. Return an array with the largest such square in each direction. 
-function findSquares(box) {
+function findSquares(box, color) {
     var returnArray = [];
     var color = box.color;
     var upLeftSquare = findUpLeft(box,color);

@@ -1,19 +1,22 @@
 //Global variables
 var board;
+var container = document.getElementById("cont");
+var hintDiv = document.getElementById("hintDiv");
+var infoPara = document.getElementById("infoPara");
+var scorePara = document.getElementById("scorePara");
+var sizeForm = document.getElementById("sizeForm");
 
 function drawBoard(size) {
-    var sizeForm = document.getElementById("sizeForm"),
-        infoPara = document.getElementById("infoPara");
     sizeForm.style.display = "none";
     infoPara.innerHTML = "<h2><span style='color:red'>Red's first turn</span></h2>"
 
     board = new Board(size);
     board.init();
     board.draw();
+    hintDiv.style.display = "block";
 }
 
 function Board(size, boxes, init, draw) {
-    var container = document.getElementById("cont");
     this.size = size;
     this.boxesObj = Object;
     this.boxesArr = [];
