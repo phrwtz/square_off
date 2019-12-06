@@ -1,12 +1,16 @@
 //Come here for a hint. First find the best square, then the best diamond.
 function findP() {
-    bestSquare = findPsquares(board.turnColor);
-    bestDiamond = findPdiamonds(board.turnColor);
-    if (bestSquare) {
-        infoPara.innerHTML += ("<br>You can make a square worth " + bestSquare[1] + " points by clicking on " + (bestSquare[0].x + 1) + ", " + (bestSquare[0].y + 1) + ".")
-    }
-    if (bestDiamond) {
-        infoPara.innerHTML += ("<br>You can make a diamond worth " + bestDiamond[1] + " points by clicking on " + (bestDiamond[0].x + 1) + ", " + (bestDiamond[0].y + 1) + ".")
+    var colorArray = ["red", "blue"];
+    var colorStr = ["Red", "Blue"];
+    for (var i = 0; i < colorArray.length; i++) {
+        bestSquare = findPsquares(colorArray[i]);
+        bestDiamond = findPdiamonds(colorArray[i]);
+        if (bestSquare) {
+            infoPara.innerHTML += ("<br>" + colorStr[i] + " can make a square worth " + bestSquare[1] + " points by clicking on " + (bestSquare[0].x + 1) + ", " + (bestSquare[0].y + 1) + ".")
+        }
+        if (bestDiamond) {
+            infoPara.innerHTML += ("<br>" + colorStr[i] + " can make a diamond worth " + bestDiamond[1] + " points by clicking on " + (bestDiamond[0].x + 1) + ", " + (bestDiamond[0].y + 1) + ".")
+        }
     }
 }
 
