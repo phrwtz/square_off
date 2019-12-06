@@ -1,6 +1,6 @@
 colorValue = {};
 colorValue.white = ["#FFFFFF", "	#FFF8DC"];
-colorValue.red = ["#FA4070","#FF0000"];
+colorValue.red = ["#FA3860","#FF0000"];
 colorValue.blue = ["#3333ff", "#0010BB"];
 colorValue.lightred = ["#ffb3d9","#ff99cc"];
 colorValue.lightblue = ["#B0E0E6", "#87CEEB"];
