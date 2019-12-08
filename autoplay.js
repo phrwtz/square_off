@@ -2,14 +2,18 @@
 function findP() {
     var colorArray = ["red", "blue"];
     var colorStr = ["Red", "Blue"];
+    var colorStr;
+    hintPara.innerHTML = "";
     for (var i = 0; i < colorArray.length; i++) {
         bestSquare = findPsquares(colorArray[i]);
         bestDiamond = findPdiamonds(colorArray[i]);
         if (bestSquare) {
-            infoPara.innerHTML += ("<br>" + colorStr[i] + " can make a square worth " + bestSquare[1] + " points by clicking on " + (bestSquare[0].x + 1) + ", " + (bestSquare[0].y + 1) + ".")
+            (bestSquare[1] === 1) ? pointStr = " point ": pointStr = " points ";
+            hintPara.innerHTML += ("<br>" + colorStr[i] + " can make a square worth " + bestSquare[1] + pointStr + "by clicking on " + (bestSquare[0].x + 1) + ", " + (bestSquare[0].y + 1) + ".")
         }
         if (bestDiamond) {
-            infoPara.innerHTML += ("<br>" + colorStr[i] + " can make a diamond worth " + bestDiamond[1] + " points by clicking on " + (bestDiamond[0].x + 1) + ", " + (bestDiamond[0].y + 1) + ".")
+            (bestDiamond[1] === 1) ? pointStr = " point ": pointStr = " points ";
+            hintPara.innerHTML += ("<br>" + colorStr[i] + " can make a diamond worth " + bestDiamond[1] + pointStr + "by clicking on " + (bestDiamond[0].x + 1) + ", " + (bestDiamond[0].y + 1) + ".")
         }
     }
 }
@@ -113,6 +117,7 @@ function findPdiamonds(color) {
     }
 }
 
+//Return a numerical score for <diamond> counting one point every white fill box that turns lightblue or lightred, two points for every lightblue box that turns lightred or lightblue box that turns lightred, and three points for every lightred box that turns red or lightblue box that turns blue.
 function scoreDiamond(d) {
     if (!d) {
         return 0;
@@ -121,34 +126,36 @@ function scoreDiamond(d) {
         y = d.y,
         side = d.side,
         c = d.color,
-        top = board.box(x, y),
-        left = board.box(x - side, y + side),
-        right = board.box(x + side, y + side),
-        bottom = board.box(x, y + 2 * side),
         delta = 1,
         diamondScore = 0,
         fillBox, fillScore;
     for (let i = 1; i <= side; i++) {
         for (let j = -delta; j <= delta; j++) {
             fillBox = board.box(x + j, y + i);
-            fillScore = scoreBox(fillBox.color, d.color);
-            diamondScore = diamondScore + fillScore;
+            if (!diamondCorner(d, fillBox)) {
+                fillScore = scoreBox(fillBox.color, d.color);
+                diamondScore = diamondScore + fillScore;
+                console.log("Box (" + (fillBox.x + 1) + ", " + (fillBox.y + 1) + ") with color " + fillBox.color + " adds " + fillScore + " to the score of this diamond. Total score so far = " + diamondScore);
+            }
         }
         delta++;
     }
     delta = side - 1;
-    for (i = side + 1; i < 2 * side; i++) {
-        for (var j = -delta; j <= delta; j++) {
+    for (let i = side + 1; i < 2 * side; i++) {
+        for (let j = -delta; j <= delta; j++) {
             fillBox = board.box(x + j, y + i);
-            fillScore = scoreBox(fillBox.color, d.color);
-            diamondScore = diamondScore + fillScore;
+            if (!diamondCorner(d, fillBox)) {
+                fillScore = scoreBox(fillBox.color, d.color);
+                diamondScore = diamondScore + fillScore;
+                console.log("Box (" + (fillBox.x + 1) + ", " + (fillBox.y + 1) + ") with color " + fillBox.color + " adds " + fillScore + " to the score of this diamond. Total score so far = " + diamondScore);
+            }
         }
         delta--;
     }
     return diamondScore;
 }
 
-//Return a numerical score for <square> counting one point every white fill box that turns lightblue or lightred, two points for every lightblue box that turns lightred or lightblue box that turns lightred, and three points for every lightred box that turn red or lightblue box that turns blue.
+//Return a numerical score for <square> counting one point every white fill box that turns lightblue or lightred, two points for every lightblue box that turns lightred or lightblue box that turns lightred, and three points for every lightred box that turns red or lightblue box that turns blue.
 function scoreSquare(s) {
     if (!s) {
         return 0;
@@ -159,22 +166,29 @@ function scoreSquare(s) {
     for (let i = s.x; i <= s.x + s.side; i++) {
         for (let j = s.y; j <= s.y + s.side; j++) {
             fillBox = board.box(i, j);
-            if (!corner(s, fillBox)) {
+            if (!squareCorner(s, fillBox)) {
                 score = score + scoreBox(fillBox.color, s.color);
                 //           console.log("fill box at " + i + ", " + j + " with color " + fillBox.color + " gets a score of " + scoreBox(fillBox.color, s.color) + ". Score is now " + score);
             }
         }
     }
-    //    console.log("Score = " + score);
     return score;
 }
 
 //Returns true is box is a corner of square
-function corner(square, box) {
+function squareCorner(square, box) {
     var x = square.x,
         y = square.y,
         side = square.side;
     return ((box.x == x && box.y == y) || (box.x == x + side && box.y == y) || (box.x == x && box.y == y + side) || (box.x == x + side && box.y == y + side));
+}
+
+//Returns true is box is a corner of diamond
+function diamondCorner(diamond, box) {
+    var x = diamond.x,
+        y = diamond.y,
+        side = diamond.side;
+    return ((box.x == x && box.y == y) || (box.x == x - side && box.y == y + side) || (box.x == x + side && box.y == y + side) || (box.x == x && box.y == y + 2 * side));
 }
 
 function scoreBox(boxColor, squareColor) {
