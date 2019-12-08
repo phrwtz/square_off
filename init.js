@@ -4,6 +4,7 @@ var container = document.getElementById("cont");
 var hintDiv = document.getElementById("hintDiv");
 var infoPara = document.getElementById("infoPara");
 var scorePara = document.getElementById("scorePara");
+var hintPara = document.getElementById("hintPara");
 var sizeForm = document.getElementById("sizeForm");
 
 function drawBoard(size) {

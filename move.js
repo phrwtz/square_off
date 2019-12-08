@@ -9,6 +9,7 @@ function handleMove(rectId) {
         if (thisBox.color == "red" || thisBox.color == "blue") {
             console.log("Clicked on a red or blue box. No go.");
         } else {
+            hintPara.innerHTML = "";
             //If it's any other color, make it turnColor
             thisBox.color = board.turnColor;
             thisBox.draw();
