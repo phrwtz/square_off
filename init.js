@@ -9,7 +9,7 @@ var sizeForm = document.getElementById("sizeForm");
 
 function drawBoard(size) {
     sizeForm.style.display = "none";
-    infoPara.innerHTML = "<h2><span style='color:red'>Red's first turn</span></h2>"
+    infoPara.innerHTML = "<h2><span style='color:red'>Red's first turn</span></h2>";
 
     board = new Board(size);
     board.init();
